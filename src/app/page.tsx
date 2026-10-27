@@ -1,69 +1,136 @@
-import Image from "next/image";
+import Link from "next/link";
+import { IconeCible, IconeEchelle, IconeLivre, IconeLoupe, IconeStylo, IconeToque } from "@/components/Icones";
+import MathMarkdown from "@/components/MathMarkdown";
+import { MATIERES } from "@/lib/programmes";
+import { couleur } from "@/lib/style";
+import Reprendre from "./Reprendre";
 
-export default function Home() {
+const ACTIONS = [
+  {
+    href: "/corriger",
+    titre: "Corriger un sujet",
+    texte: "Photo ou texte : la correction détaillée, des indices, ou ta copie notée sur 20.",
+    Icone: IconeStylo,
+    accent: "var(--rouge)",
+  },
+  {
+    href: "/analyser",
+    titre: "Analyser un texte",
+    texte: "Explication linéaire ou commentaire de n'importe quel extrait, phrase par phrase.",
+    Icone: IconeLoupe,
+    accent: "var(--francais)",
+  },
+  {
+    href: "/cours",
+    titre: "Comprendre le cours",
+    texte: "Une fiche complète par chapitre du programme, et toutes tes questions.",
+    Icone: IconeLivre,
+    accent: "var(--bleu)",
+  },
+  {
+    href: "/entrainement",
+    titre: "S'entraîner",
+    texte: "QCM corrigés et exercices inédits avec indices progressifs.",
+    Icone: IconeCible,
+    accent: "var(--vert)",
+  },
+  {
+    href: "/entrainement?onglet=methode",
+    titre: "Progresser à ton niveau",
+    texte: "Fiches méthode personnalisées et exercices d'approfondissement par critère de réussite.",
+    Icone: IconeEchelle,
+    accent: "var(--pc)",
+  },
+  {
+    href: "/bac",
+    titre: "Objectif bac",
+    texte: "Sujets type au format officiel, chrono, annales et bac de français.",
+    Icone: IconeToque,
+    accent: "var(--philo)",
+  },
+];
+
+const EXEMPLE = `**Exercice.** Résoudre dans $\\mathbb{R}$ : $e^{2x} - 3e^{x} + 2 = 0$.
+
+On pose $X = e^{x}$ (avec $X > 0$) : l'équation devient $X^2 - 3X + 2 = 0$.
+
+$\\Delta = 9 - 8 = 1$, donc $X_1 = 1$ et $X_2 = 2$.
+
+$e^{x} = 1 \\iff x = 0$ et $e^{x} = 2 \\iff x = \\ln 2$.
+
+$$\\boxed{S = \\{0\\,;\\ \\ln 2\\}}$$`;
+
+export default function Accueil() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
+    <>
+      <section className="grid items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
+        <div className="apparait">
+          <p className="manuscrit mb-2 -rotate-2 text-3xl">Première &amp; Terminale</p>
+          <h1 className="titre text-5xl font-semibold sm:text-6xl">
+            Ton bac, <span className="italic">corrigé</span> et <span className="stabilo">expliqué</span>.
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="mt-5 max-w-xl text-lg text-encre-douce">
+            Maths, physique-chimie, SVT, français, philo, histoire-géo : envoie n&apos;importe quel sujet et
+            obtiens une correction pas à pas, des fiches de cours, des QCM et des sujets type bac.
           </p>
+          <div className="mt-7 flex flex-wrap gap-3">
+            <Link href="/corriger" className="bouton text-lg">
+              <IconeStylo width={20} height={20} /> Corriger un sujet
+            </Link>
+            <Link href="/bac" className="bouton-second text-lg">
+              Faire un sujet type
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="apparait relative" style={{ animationDelay: "120ms" }} aria-label="Exemple de correction">
+          <div className="copie rotate-1">
+            <MathMarkdown texte={EXEMPLE} />
+          </div>
+          <p className="manuscrit absolute -top-5 right-4 rotate-3 text-3xl">Très bien !</p>
+          <div className="manuscrit absolute -bottom-6 -left-2 -rotate-6 rounded-[50%] border-[2.5px] border-rouge bg-carte px-4 py-1.5 text-3xl">
+            20<span className="text-xl">/20</span>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      <section className="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-label="Que veux-tu faire ?">
+        {ACTIONS.map(({ href, titre, texte, Icone, accent }, i) => (
+          <Link
+            key={href}
+            href={href}
+            className="carte apparait group relative overflow-hidden p-5 transition-transform hover:-translate-y-1"
+            style={{ animationDelay: `${200 + i * 70}ms` }}
+          >
+            <span
+              className="mb-4 grid h-11 w-11 place-items-center rounded-xl text-white"
+              style={{ background: accent }}
+            >
+              <Icone width={22} height={22} />
+            </span>
+            <h2 className="titre text-2xl font-semibold">{titre}</h2>
+            <p className="mt-1.5 text-encre-douce">{texte}</p>
+            <span className="mt-3 inline-block font-bold transition-transform group-hover:translate-x-1" aria-hidden="true">
+              →
+            </span>
+          </Link>
+        ))}
+      </section>
+
+      <Reprendre />
+
+      <section className="mt-14" aria-labelledby="titre-matieres">
+        <h2 id="titre-matieres" className="etiquette">
+          Réviser par matière
+        </h2>
+        <div className="flex flex-wrap gap-2">
+          {MATIERES.map((m) => (
+            <Link key={m.id} href={`/cours?matiere=${m.id}`} className="puce" style={couleur(m)}>
+              <span className="pastille" /> {m.nom}
+            </Link>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }
